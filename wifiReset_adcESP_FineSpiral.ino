@@ -1,6 +1,6 @@
 /*
 Author: MV Akhil
-Date: ~In development~ 
+Date: 01/07/2023
 adcESP32 Code: WiFi client (or) TCP-WebSocket client
 Find and Go-back to coarse-peak, do spiral fine-scan and go-back to fine-peak
 Can remotly reset server upon button press.
@@ -112,7 +112,6 @@ typedef struct corner_points_struct {
 } corner_points_struct;
 
 corner_points_struct sent_info;
-//corner_points_struct rx_info;
 
 //_______Arrays defined__________
 const int arr_size = 2000;
@@ -228,8 +227,6 @@ void setup() {
 
   //-------ADC-------------
   adcAttachPin(ADC_ip_pin);
-//  LIA_bs = BS_calib(); //Caliberating ADC's baseline
-
   
   // Set up Serial Monitor
   Serial.begin(500000);
@@ -318,16 +315,11 @@ void loop() {
   Serial.println("pp-calib " + String(LIA_bs));
   arr_index = 0; //To rewrite the array with coarse-scan data
 
-//  //Taking dummy reading to avoid noise in the coarse_scan 
-//  LIA_op = roundf(analogReadAdjusted(ADC_ip_pin,5)*100)/100;  //Rounding to 2nd decimal    
-//  LIA_delta = LIA_op - LIA_bs;
-
   /*---Coarse-scan specs. already loaded in start of program and in setup()*/
 
   //-------------------Coarse scanning-------------------
   Serial.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~bool_Coarse scanning");
   unsigned long coarseScan_start_millis = millis();
-//  do_scan(0,0);
   do_scan(self_offset_theta, self_offset_phi);
   Serial.println("@@@@@@@@@@@@@@@@@ Time taken for coarse scan = " + String(millis() - coarseScan_start_millis)
                   + " ms");  
@@ -344,7 +336,7 @@ void loop() {
   //Finding global max of LIA_readings #Coarse_peak 
   int max_index = 0;
 
-  // (not)IGNORING the first sample(i=1 and not 0) while finding coarse peak: found that usually its noisy...sometimes more than the coarse peak!
+  
   for(int i=0; i<arr_index; i++){
     /*This stores the last occurance of the global peak*/
     LIA_delta_arr[i] -= scan_dc_offset; // Offsetting the already recorded coarse scan data to account for DC shift

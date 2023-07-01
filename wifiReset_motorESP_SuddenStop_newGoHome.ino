@@ -1,6 +1,6 @@
 /* 
 Author: MV Akhil
-Date: ~In development~  
+Date: 01/07/2023 
 motorESP32 Code: WiFi server (or) TCP-WebSocket server
 Goes to any 2D coordinates from any initial coord. w/ SUDDEN STOP feature
 Capable of remote reset
@@ -157,7 +157,6 @@ void IRAM_ATTR isr_home_steppers() {
   portENTER_CRITICAL(&synch);
   
   home_steppers_flag = true;
-//  proceed = false;  // To make sure no more scanning takes place
 
   portEXIT_CRITICAL(&synch);
 }
@@ -166,8 +165,6 @@ void IRAM_ATTR isr_home_steppers() {
 
 //=================================================================================//
 void setup() {  
-//  sent_info.corner_reached = false;// signals after reaching desired location
-//  sent_info.msg_delivered = false;// signals after getting the desired loc. info. from adcESP
 
   //motor-pins
   pinMode(stepPin1, OUTPUT);
@@ -249,12 +246,7 @@ void loop() {
     if(home_steppers_flag) home_steppers();
     if(rx_corner_pts) break;
   }
-  rx_corner_pts = false;
-  
-  //sends DELIVERY ACK., its made sure at adcESP that only delivery boolean is read.
-//  sent_info.msg_delivered = true;
-//  sent_info.corner_reached = false;
-//  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &sent_info, sizeof(sent_info));  
+  rx_corner_pts = false; 
 
   //storing rx corner points
   int theta_destination = rx_info.theta;

@@ -40,8 +40,8 @@ int theta_resol = 10;
 int phi_resol = 10;
 
 // Offset from manually aligned peak to start scan
-int self_offset_theta = -50;
-int self_offset_phi = -50;
+int self_offset_theta = -10;
+int self_offset_phi = -10;
 
 // fine scan theta_max/2 and phi_max/2 ==> Fine scan specs defn. after coarse-peak overshoot
 int theta_overshoot = 25; // 50/2

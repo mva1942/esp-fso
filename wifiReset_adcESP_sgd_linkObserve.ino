@@ -46,9 +46,6 @@ int phi_resol = 10;
 int self_offset_theta = -10;
 int self_offset_phi = -10;
 
-// fine scan theta_max/2 and phi_max/2
-//int theta_overshoot = 25;
-//int phi_overshoot = 25;
 int theta_overshoot = 0;
 int phi_overshoot = 0;
 
@@ -140,7 +137,6 @@ typedef struct corner_points_struct {
 } corner_points_struct;
 
 corner_points_struct sent_info;
-//corner_points_struct rx_info;
 
 //_______Arrays defined__________
 const int arr_size = 2000;
@@ -263,11 +259,9 @@ void setup() {
 
   //-------ADC-------------
   adcAttachPin(ADC_ip_pin);
-//  LIA_bs = BS_calib(); //Caliberating ADC's baseline
   
   // Set up Serial Monitor
   Serial.begin(500000);
-//  Serial.begin(115200);
 
   pinMode(BS_calib_button,INPUT); //Pulled up externally w/ 10k ~5V
   pinMode(onboard_led,OUTPUT);
@@ -352,17 +346,12 @@ void loop() {
   LIA_bs = BS_calib(); //Caliberating ADC's baseline
   Serial.println("pp-calib " + String(LIA_bs));
   arr_index = 0; //To rewrite the array with coarse-scan data
-  
-//  //Taking dummy reading to avoid noise in the coarse_scan 
-//  LIA_op = roundf(analogReadAdjusted(ADC_ip_pin,5)*100)/100;  //Rounding to 2nd decimal    
-//  LIA_delta = LIA_op - LIA_bs;
 
   /*---Coarse-scan specs. already loaded in start of program and in setup()*/
 
   //-------------------Coarse scanning-------------------
   Serial.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~bool_Coarse scanning");
   unsigned long coarseScan_start_millis = millis();
-//  do_scan(0,0);
   do_scan(self_offset_theta, self_offset_phi);
   Serial.println("@@@@@@@@@@@@@@@@@ Time taken for coarse scan = " + String(millis() - coarseScan_start_millis)
                   + " ms");  
@@ -379,7 +368,6 @@ void loop() {
   //Finding global max of LIA_readings #Coarse_peak 
   int max_index = 0;
 
-  // (not)IGNORING the first sample(i=1 and not 0) while finding coarse peak: found that usually its noisy...sometimes more than the coarse peak!
   for(int i=0; i<arr_index; i++){
     /*This stores the last occurance of the global peak*/
     LIA_delta_arr[i] -= scan_dc_offset; // Offsetting the already recorded coarse scan data to account for DC shift
@@ -402,9 +390,6 @@ void loop() {
     goHome_waitTillReset();
   }
   
-  //To overwrite the arrays w/ overshoot steps
-  //.....Not overwriting so that coarse-scan and go-back data can both be stored in matrix
-//  arr_index = 0;
 
   //-------------------Sending the overshooted coarse peak-------------------
 
@@ -512,7 +497,6 @@ void loop() {
       Serial.println("- stopping and waiting for reset");                      
       goHome_waitTillReset();
     }
-//    LIA_next = LIA_delta_arr[arr_index-1];
 
     //~~~~~~~~~~~Checking for convergance~~~~~~~~~~~
 //    if(LIA_next > LIA_n){
@@ -550,7 +534,7 @@ void loop() {
   // Observes either the SGD converged pt. or the last SGD pt. after max_iterations
   Serial.println("\n~~~~~~~~~~~~~~~~bool_observe link");
   terminate_goHome = false; //Important as this will be "true" otherwise, due to program flow
-//  attachInterrupt(BS_calib_button,isr_BS_calib,FALLING); 
+//  attachInterrupt(BS_calib_button,isr_BS_calib,FALLING); // Switch bounce problem, hence commented
   unsigned long obs_millis = millis();
   while(true){
     if(millis()-obs_millis >= link_obs_time*60*1000) break;

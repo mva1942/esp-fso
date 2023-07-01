@@ -50,16 +50,16 @@ bool rx_corner_pts = false; //changed in rx-callBack fn
 // MAC Address of ADC-ESP32
 // SSID and password of ESP32 Wifi server:
 /*For personal wifi*/
-const char* ssid = "anil-fso";
-const char* password = "80189060";
+const char* ssid = " ";
+const char* password = " ";
 
 /*For enterprise wifi*/
-//const char* ssid = "iitmwifi"; // your ssid
-//#define EAP_ID "ee20s132@iitm.ac.in" // roll no in SMALL CAPS
-//#define EAP_USERNAME "ee20s132" // roll no in SMALL CAPS
-//#define EAP_PASSWORD "cKfaJ58U}!t" // CASE SENSITIVE password
+//const char* ssid = " "; // your ssid
+//#define EAP_ID " " // roll no in SMALL CAPS
+//#define EAP_USERNAME " " // roll no in SMALL CAPS
+//#define EAP_PASSWORD " " // CASE SENSITIVE password
 
-//const char * host = "10.42.12.159"; //adc-ESP IP addr.
+//const char * host = " "; //adc-ESP IP addr.
 const uint16_t port = 81;
 byte client_id = 7; // Max 5 clients(0-4) are only allowed, so 7 is an invalid client id
 byte prev_client_id = 7;

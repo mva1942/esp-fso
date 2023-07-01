@@ -113,12 +113,12 @@ typedef struct grad{
 
 //-------------WiFi----------------//
 // SSID and password of ESP32 Wifi server:
-const char* ssid = "iitmwifi"; // your ssid
-#define EAP_ID "ee20s132@iitm.ac.in" // roll no in SMALL CAPS
-#define EAP_USERNAME "ee20s132" // roll no in SMALL CAPS
-#define EAP_PASSWORD "cKfaJ58U}!t" // CASE SENSITIVE password
+const char* ssid = " "; // your ssid
+#define EAP_ID " " // roll no in SMALL CAPS
+#define EAP_USERNAME " " // roll no in SMALL CAPS
+#define EAP_PASSWORD " " // CASE SENSITIVE password
 
-const char * host = "10.21.3.66"; //motor-ESP IP addr.
+const char * host = " "; //motor-ESP IP addr.
 const uint16_t port = 81;
 
 bool connection_success = false;  // To know if connected to motor-ESP(server)
